@@ -1,0 +1,96 @@
+{
+    "name": "scenario_1",
+    "speech": {
+        "provider": "inworld",
+        "voice": "???",
+        "model": "???"
+    },
+    "intro": "The EM Physician has told you that you will be getting a history from a 22-year-old male with autism spectrum disorder presenting with abdominal pain. The ED is busy, loud, and bright. You discuss with the nurse before entering the patient room and he tells you he attempted IV placement, which caused the patient to become distressed and yell “Stop!” He lets you know that the patient remains visibly agitated and sensitive to the surrounding noise and activity.",
+    "goal": "Your goal is to reduce the patient’s agitation using appropriate de-escalation strategies before proceeding with further care.",
+    "point_bar": {
+        "max": 10,
+        "start": 5,
+        "goal": 0
+    },
+    "actions": [
+        {
+            "type": "Caregiver involvement",
+            "desc": "Ask caregiver for guidance or involve them in calming",
+            "point_change": -3,
+            "scene_change": "Patient stops yelling, looks toward caregiver, posture softens"
+        },
+        {
+            "type": "Environmental",
+            "desc": "Dim lights, reduce noise, limit staff, pause IV",
+            "point_change": -2,
+            "scene_change": "Lights dim, noise decreases, fewer staff present, patient less overstimulated"
+        },
+        {
+            "type": "Verbal Communication",
+            "desc": "Calm tone, simple explanations, reassurance",
+            "point_change": -1,
+            "scene_change": "Patient quieter, less defensive, brief eye contact"
+        },
+        {
+            "type": "Offer Control",
+            "desc": "Give choices (explain vs show)",
+            "point_change": -1,
+            "scene_change": "Patient engages slightly, less tension in body"
+        },
+        {
+            "type": "Acknowledge distress",
+            "desc": "E.g. “I see this is overwhelming”",
+            "point_change": -1,
+            "scene_change": "Patient pauses, reduced vocal distress"
+        },
+        {
+            "type": "Delay Procedure",
+            "desc": "Acknowledge that IV will be done later",
+            "point_change": -1,
+            "scene_change": "Staff step back, patient relaxes, less defensive movement"
+        },
+        {
+            "type": "Basic Comfort",
+            "desc": "Offer water/food; comforting words that do not translate to an available action",
+            "point_change": 0,
+            "scene_change": "No meaningful change; patient remains distressed"
+        },
+        {
+            "type": "Force IV",
+            "desc": "Attempt IV while agitated",
+            "point_change": 4,
+            "scene_change": "Patient yells loudly, pulls away, rapid escalation"
+        },
+        {
+            "type": "Ignore Caregiver",
+            "desc": "Do not involve caregiver",
+            "point_change": 2,
+            "scene_change": "Caregiver appears frustrated, patient agitation increases"
+        },
+        {
+            "type": "Authoritative tone",
+            "desc": "E.g. “We need to do this now”",
+            "point_change": 2,
+            "scene_change": "Increased yelling, resistance, possible attempt to leave"
+        },
+        {
+            "type": "Maintain stimulation ",
+            "desc": "Loud, bright, crowded environment",
+            "point_change": 2,
+            "scene_change": "Patient covers ears, increased distress and movement"
+        },
+        {
+            "type": "No action",
+            "desc": "Delays in action >2min",
+            "point_change": 1,
+            "scene_change": "Gradual worsening of agitation"
+        },
+        {
+            "type": "Restraint",
+            "desc": "Chemical Sedations or Physical Restraints",
+            "point_change": 10,
+            "scene_change": "END SIMULATION - Ensure feedback includes a discussion of how there is a better approach and/or this level of deescalation would not be the most ethical choice in the scenario"
+        }
+    ]
+
+}
