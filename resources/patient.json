@@ -2,8 +2,8 @@
     "name": "scenario_1",
     "speech": {
         "provider": "inworld",
-        "voice": "???",
-        "model": "???"
+        "voice": "Alex",
+        "model": "inworld-tts-1.5-mini"
     },
     "intro": "The EM Physician has told you that you will be getting a history from a 22-year-old male with autism spectrum disorder presenting with abdominal pain. The ED is busy (many staff present), loud, and bright. You discuss with the nurse before entering the patient room and he tells you he attempted IV placement, which caused the patient to become distressed and yell “Stop!” He lets you know that the patient remains visibly agitated and sensitive to the surrounding noise and activity. The patient's caregiver is present.",
     "goal": "Your goal is to reduce the patient’s agitation using appropriate de-escalation strategies before proceeding with further care.",
