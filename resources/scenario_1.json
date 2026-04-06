@@ -1,5 +1,4 @@
 {
-    "name": "scenario_1",
     "speech": {
         "provider": "inworld",
         "voice": "Alex",
@@ -9,7 +8,8 @@
     "goal": "Your goal is to reduce the patient’s agitation using appropriate de-escalation strategies before proceeding with further care.",
     "background": "background.jpg",
     "start": "start.jpg",
-    "end": "end.jpg",
+    "success": "end.jpg",
+    "fail": "fail.jpg",
     "point_bar": {
         "max": 10,
         "start": 5,
@@ -68,7 +68,7 @@
             "type": "Restraint",
             "desc": "Chemical Sedations or Physical Restraints",
             "point_change": 10,
-            "scene_change": "restraint.jpg"
+            "scene_change": "fail.jpg"
         }
     ]
 
