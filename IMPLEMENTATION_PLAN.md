@@ -36,12 +36,12 @@ Per student turn (FastRTC handler, sync thread):
 
 | File | Action | Notes |
 |------|--------|-------|
-| `app.py` | Create | Main entry; all backend logic |
+| `app.py` | ✅ Done | Main entry; all backend logic |
 | `static/index.html` | Create | Single-file frontend (inline CSS/JS) |
 | `resources/system.txt` | ✅ Done | System agent prompt (JSON-only, 4 few-shot examples) |
 | `resources/patient.txt` | ✅ Done | Patient agent base prompt (escalation table, locked info gate) |
 | `resources/patient.json` | ✅ Done | Patient case (Jordan, 22yo, ASD) |
-| `resources/scenario_1.json` | ✅ Done | Fixed `"end.jpg"→"success.jpg"`, added `"time_limit": 300` |
+| `resources/scenario_1.json` | ✅ Done | Fixed `"end.jpg"→"success.jpg"`, added `"time_limit": 300`, added `"speed": 1.0` to speech block |
 | `requirements.txt` | ✅ Done | All Python deps |
 
 `simulation.py` stays untouched as reference.
@@ -55,8 +55,8 @@ Per student turn (FastRTC handler, sync thread):
 3. ~~**`resources/patient.txt`** — patient agent base prompt~~ ✅ DONE  
 4. ~~**`resources/system.txt`** — system agent prompt (highest risk; needs few-shot examples)~~ ✅ DONE  
 5. ~~**`requirements.txt`**~~ ✅ DONE  
-6. **`app.py`** — full backend ← **next**  
-7. **`static/index.html`** — frontend  
+6. ~~**`app.py`** — full backend~~ ✅ DONE  
+7. **`static/index.html`** — frontend ← **next**  
 
 ---
 
