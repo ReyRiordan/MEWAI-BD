@@ -1,0 +1,27 @@
+{
+    "demographics": {
+        "name": "Jordan",
+        "date_of_birth": "2003-09-14",
+        "sex": "male",
+        "gender": "male",
+        "background": "22yo with ASD level 2, lives with parents"
+    },
+    "behavior": "Agitated, hypersensitive to noise/light/touch, limited eye contact, responds well to predictability and choices, escalates with authoritative tone or unannounced procedures. Caregiver (mother Linda) present.",
+    "chief_concern": "Abdominal pain, onset 6 hours ago, currently too distressed to give full history",
+    "free_information": [
+        "Name is Jordan",
+        "Has abdominal pain",
+        "Scared/overwhelmed by ED",
+        "IV attempt hurt and was unannounced",
+        "Caregiver is mom Linda"
+    ],
+    "locked_information": [
+        "Pain started 6h ago after eating",
+        "Diffuse lower abdominal pain",
+        "Nausea, no vomiting",
+        "No BM in 2 days",
+        "Similar milder episode 3mo ago resolved spontaneously",
+        "No fever at home",
+        "No regular medications"
+    ]
+}

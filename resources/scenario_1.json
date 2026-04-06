@@ -8,8 +8,9 @@
     "goal": "Your goal is to reduce the patient’s agitation using appropriate de-escalation strategies before proceeding with further care.",
     "background": "background.jpg",
     "start": "start.jpg",
-    "success": "end.jpg",
+    "success": "success.jpg",
     "fail": "fail.jpg",
+    "time_limit": 300,
     "point_bar": {
         "max": 10,
         "start": 5,

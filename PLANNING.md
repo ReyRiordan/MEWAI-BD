@@ -18,6 +18,7 @@ teaching points, the full list of valid actions (and which ones they found/misse
 additional evaluations done on the interaction transcript (e.g. patient comfort, ethics standards).
 
 Scenario File Format
+- Scenario file for POC is resources/scenario_1.json
 - "speech" settings dictate what TTS model/voice are used for patient
 - "intro" and "goal" desc used at beginning
 - "background", "start", "success", and "fail" scenes
@@ -27,17 +28,18 @@ Scenario File Format
 System Agent
 - AI that acts as an intermediary between the student and patient agent, moderating the
 simulation
-- Provided with task instructions, scenario context, and full list of actions
+- Provided with task instructions, scenario context, and full list of actions (prompt resources/system.txt)
 - Reviews the transcription of each student response to determine whether any action was detected
 
 Patient Agent
 - AI that acts as the patient in the scenario
 - Provided with task instructions, scenario description, patient case file, transcript history, and current escalation
-level
+level (base prompt resources/patient.txt)
 - Responds to whatever the student says according to patient case and current escalation (e.g.
 escalation bar is lower --> softer response)
 
 Student Evaluations
+- Stubbed for POC
 - Level of success in choosing correct actions and de-escalating scenario
 - Post-simulation automatic evaluations of the transcript according to rubrics (e.g. grade
 according to how well student met standards for patient comfort, ethical behavior)
