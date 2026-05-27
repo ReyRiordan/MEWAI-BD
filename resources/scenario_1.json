@@ -8,9 +8,6 @@
     "intro": "The EM Physician has told you that you will be getting a history from a 22-year-old male with autism spectrum disorder presenting with abdominal pain. The ED is busy (many staff present), loud, and bright. You discuss with the nurse before entering the patient room and he tells you he attempted IV placement, which caused the patient to become distressed and yell “Stop!” He lets you know that the patient remains visibly agitated and sensitive to the surrounding noise and activity. The patient's caregiver is present.",
     "goal": "Your goal is to reduce the patient’s agitation using appropriate de-escalation strategies before proceeding with further care.",
     "background": "background.jpg",
-    "start": "start.jpg",
-    "success": "success.jpg",
-    "fail": "fail.jpg",
     "time_limit": 300,
     "point_bar": {
         "max": 10,
@@ -22,55 +19,82 @@
             "type": "Caregiver involvement",
             "desc": "Ask caregiver for guidance or involve them in calming",
             "point_change": -3,
-            "scene_change": "caregiver_involvement.jpg"
+            "default": "caregiver_default.jpg",
+            "active": "caregiver_active.jpg",
+            "persist": true,
+            "layer": 1
         },
         {
             "type": "Environmental",
-            "desc": "Dim lights, reduce noise, limit staff, pause IV",
+            "desc": "Dim lights, reduce noise, limit staff",
             "point_change": -2,
-            "scene_change": "environmental.jpg"
+            "default": "environmental_default.jpg",
+            "active": "environmental_active.jpg",
+            "persist": true,
+            "layer": -1
         },
         {
             "type": "Verbal Communication",
             "desc": "Calm tone, simple explanations, reassurance",
             "point_change": -1,
-            "scene_change": "verbal_communication.jpg"
+            "default": null,
+            "active": null,
+            "persist": false,
+            "layer": null
         },
         {
             "type": "Offer Control",
             "desc": "Give choices (explain vs show)",
             "point_change": -1,
-            "scene_change": "offer_control.jpg"
+            "default": null,
+            "active": null,
+            "persist": false,
+            "layer": null
         },
         {
             "type": "Acknowledge distress",
             "desc": "E.g. “I see this is overwhelming”",
             "point_change": -1,
-            "scene_change": "acknowledge_distress.jpg"
+            "default": null,
+            "active": null,
+            "persist": false,
+            "layer": null
         },
         {
             "type": "Delay Procedure",
             "desc": "Acknowledge that IV will be done later",
             "point_change": -1,
-            "scene_change": "delay_procedure.jpg"
+            "default": null,
+            "active": null,
+            "persist": false,
+            "layer": null
         },
         {
             "type": "Force IV",
             "desc": "Attempt IV while agitated",
             "point_change": 4,
-            "scene_change": "force_iv.jpg"
+            "default": null,
+            "active": "iv_active.jpg",
+            "persist": false,
+            "layer": 1
         },
         {
             "type": "Authoritative tone",
             "desc": "E.g. “We need to do this now”",
             "point_change": 2,
-            "scene_change": "authoritative_tone.jpg"
+            "default": null,
+            "active": null,
+            "persist": false,
+            "layer": null
         },
         {
             "type": "Restraint",
             "desc": "Chemical Sedations or Physical Restraints",
             "point_change": 10,
-            "scene_change": "fail.jpg"
+            "default": null,
+            "active": "restraint_active.jpg",
+            "persist": true,
+            "layer": 1
         }
     ]
 
