@@ -54,7 +54,6 @@ async def run_timer():
         if elapsed >= limit:
             with STATE_LOCK:
                 GAME_STATE.status = "fail"
-                GAME_STATE.current_scene = SCENARIO["fail"]
             await EVENT_QUEUE.put({
                 "type": "game_over",
                 "status": "fail",
@@ -67,8 +66,7 @@ def reset_game():
     with STATE_LOCK:
         GAME_STATE.status = "idle"
         GAME_STATE.escalation = SCENARIO["point_bar"]["start"]
-        GAME_STATE.current_scene = SCENARIO["background"]
-        GAME_STATE.actions_taken.clear()
+        GAME_STATE.action_states.clear()
         GAME_STATE.timer_start = None
         GAME_STATE.timer_elapsed = 0
     with HISTORY_LOCK:
@@ -110,7 +108,7 @@ def register_routes(app, scenario: dict):
                 "type": "state_update",
                 "escalation": GAME_STATE.escalation,
                 "max": SCENARIO["point_bar"]["max"],
-                "scene": GAME_STATE.current_scene,
+                "active_actions": [t for t, v in GAME_STATE.action_states.items() if v],
                 "status": GAME_STATE.status,
             })
             while True:
@@ -121,12 +119,11 @@ def register_routes(app, scenario: dict):
                         with STATE_LOCK:
                             GAME_STATE.status = "active"
                             GAME_STATE.timer_start = time.time()
-                            GAME_STATE.current_scene = SCENARIO["start"]
                         await EVENT_QUEUE.put({
                             "type": "state_update",
                             "escalation": GAME_STATE.escalation,
                             "max": SCENARIO["point_bar"]["max"],
-                            "scene": GAME_STATE.current_scene,
+                            "active_actions": [t for t, v in GAME_STATE.action_states.items() if v],
                             "status": GAME_STATE.status,
                         })
                         asyncio.create_task(run_timer())
@@ -136,7 +133,7 @@ def register_routes(app, scenario: dict):
                         "type": "state_update",
                         "escalation": GAME_STATE.escalation,
                         "max": SCENARIO["point_bar"]["max"],
-                        "scene": GAME_STATE.current_scene,
+                        "active_actions": [],
                         "status": GAME_STATE.status,
                     })
         except WebSocketDisconnect:

@@ -50,8 +50,7 @@ def _build_patient_prompt(base: str, case: dict) -> str:
 class GameState:
     status: str = "idle"  # idle | active | success | fail
     escalation: int = 5
-    current_scene: str = "background.jpg"
-    actions_taken: list = field(default_factory=list)
+    action_states: dict = field(default_factory=dict)  # action_type -> bool
     timer_start: float | None = None
     timer_elapsed: int = 0
 

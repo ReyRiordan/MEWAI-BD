@@ -4,6 +4,7 @@ let actionsTaken = new Set();   // action_type strings detected this run
 let badgeTimer = null;
 let ws = null;
 let gameOver = false;
+let layerElements = {};  // action_type (or "__patient__") -> <img> element
 
 // ── WebSocket ──────────────────────────────────────────
 function connectWS() {
@@ -11,7 +12,6 @@ function connectWS() {
   ws = new WebSocket(`${proto}://${location.host}/ws`);
   ws.addEventListener('message', e => handleEvent(JSON.parse(e.data)));
   ws.addEventListener('close', () => {
-    // Reconnect after 1s if not intentionally closed
     setTimeout(connectWS, 1000);
   });
 }
@@ -33,17 +33,71 @@ function handleEvent(evt) {
   }
 }
 
+// ── Layer compositing ──────────────────────────────────
+function initLayers(scen) {
+  const container = document.getElementById('scene-layers');
+  container.innerHTML = '';
+  layerElements = {};
+
+  // Build entries: actions with non-null layer + special patient layer
+  const entries = [];
+  scen.actions.forEach(action => {
+    if (action.layer !== null && action.layer !== undefined) {
+      entries.push({ key: action.type, layer: action.layer });
+    }
+  });
+  entries.push({ key: '__patient__', layer: 0 });
+
+  // Sort ascending by layer value; assign z-index by sort order
+  entries.sort((a, b) => a.layer - b.layer);
+  entries.forEach((entry, idx) => {
+    const img = document.createElement('img');
+    img.className = 'scene-layer';
+    img.style.zIndex = String(idx + 1);
+    img.style.opacity = '0';
+    container.appendChild(img);
+    layerElements[entry.key] = img;
+  });
+}
+
+function setLayerSrc(img, newSrc) {
+  if (img.getAttribute('data-src') === newSrc) {
+    img.style.opacity = '1';
+    return;
+  }
+  img.setAttribute('data-src', newSrc);
+  img.style.opacity = '0';
+  setTimeout(() => { img.src = newSrc; img.style.opacity = '1'; }, 200);
+}
+
+function renderLayers(escalation, activeActions) {
+  if (!scenario) return;
+  const activeSet = new Set(activeActions);
+
+  // Patient layer
+  const patientImg = layerElements['__patient__'];
+  if (patientImg) {
+    setLayerSrc(patientImg, `/visuals/patient_${escalation}.png`);
+  }
+
+  // Action layers
+  scenario.actions.forEach(action => {
+    if (action.layer === null || action.layer === undefined) return;
+    const img = layerElements[action.type];
+    if (!img) return;
+    const isActive = activeSet.has(action.type);
+    const visual = isActive ? action.active : action.inactive;
+    if (!visual) {
+      img.style.opacity = '0';
+      return;
+    }
+    setLayerSrc(img, `/visuals/${visual}`);
+  });
+}
+
 // ── state_update ───────────────────────────────────────
 function onStateUpdate(evt) {
-  const sceneImg = document.getElementById('scene-img');
-  if (evt.scene && sceneImg.getAttribute('data-scene') !== evt.scene) {
-    sceneImg.setAttribute('data-scene', evt.scene);
-    sceneImg.style.opacity = '0';
-    setTimeout(() => {
-      sceneImg.src = `/scenes/${evt.scene}`;
-      sceneImg.style.opacity = '1';
-    }, 200);
-  }
+  renderLayers(evt.escalation, evt.active_actions || []);
   updateEscBar(evt.escalation, evt.max);
 }
 
@@ -64,7 +118,7 @@ function onActionDetected(evt) {
   actionsTaken.add(evt.action_type);
 
   const badge = document.getElementById('action-badge');
-  badge.className = 'action-badge';   // reset
+  badge.className = 'action-badge';
   badge.classList.add(evt.point_change < 0 ? 'good' : 'bad');
   badge.textContent = `${evt.action_type}: ${evt.desc}`;
   badge.style.display = 'block';
@@ -86,7 +140,6 @@ function onTimer(evt) {
 function onGameOver(evt) {
   if (gameOver) return;
   gameOver = true;
-  // Small delay so the final state_update (scene change) processes first
   setTimeout(() => showEndScreen(evt.status, evt.reason), 600);
 }
 
@@ -158,6 +211,8 @@ document.getElementById('btn-begin').addEventListener('click', () => {
   document.getElementById('timer').textContent = formatTime(scenario.time_limit || 300);
   document.getElementById('timer').classList.remove('urgent');
 
+  initLayers(scenario);
+
   showScreen('screen-game');
   wsSend({ type: 'begin' });
 });
@@ -170,9 +225,6 @@ function formatTime(secs) {
 
 // ── End screen ─────────────────────────────────────────
 function showEndScreen(status, reason) {
-  const lastScene = document.getElementById('scene-img').getAttribute('data-scene') || (status === 'success' ? 'success.jpg' : 'fail.jpg');
-  document.getElementById('end-scene').src = `/scenes/${lastScene}`;
-
   const titleEl = document.getElementById('end-title');
   titleEl.textContent = status === 'success' ? 'De-escalation Successful!' : 'Simulation Ended';
   titleEl.className = status;
@@ -217,12 +269,16 @@ function showEndScreen(status, reason) {
     });
   }
 
-  showScreen('screen-end');
+  document.getElementById('screen-end').style.display = 'flex';
 }
 
 // ── Play Again button ──────────────────────────────────
 document.getElementById('btn-again').addEventListener('click', () => {
   document.getElementById('gradio-iframe')?.remove();
+  document.getElementById('screen-end').style.display = 'none';
+
+  layerElements = {};
+  document.getElementById('scene-layers').innerHTML = '';
 
   actionsTaken = new Set();
   gameOver = false;

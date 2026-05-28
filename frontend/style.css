@@ -148,11 +148,18 @@ body {
   min-height: 0;
   overflow: hidden;
 }
-#scene-img {
+#scene-layers {
+  position: relative;
   width: 100%;
   height: 100%;
+}
+.scene-layer {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   object-fit: cover;
-  transition: opacity .4s;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 /* Timer badge */
@@ -320,50 +327,44 @@ body {
 }
 
 /* ════════════════════════════════
-   END SCREEN
+   END SCREEN (fixed overlay)
 ════════════════════════════════ */
 #screen-end {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 100;
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-}
-#end-hero {
-  position: relative;
-  width: 100%;
-  height: 260px;
-  flex-shrink: 0;
-  overflow: hidden;
-}
-#end-scene {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(.5);
+  padding: 40px 24px;
 }
 #end-hero-text {
-  position: absolute;
-  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
-  padding: 0 24px;
+  margin-bottom: 32px;
 }
 #end-title {
-  font-size: 2rem;
+  font-size: 2.4rem;
   font-weight: 700;
   margin-bottom: 8px;
+  text-shadow: 0 2px 12px rgba(0,0,0,.8);
 }
 #end-title.success { color: #4ade80; }
 #end-title.fail    { color: #f87171; }
 #end-reason {
   font-size: 1rem;
   color: #cbd5e1;
+  text-shadow: 0 1px 6px rgba(0,0,0,.8);
 }
 #end-body {
   width: 100%;
   max-width: 720px;
+  background: #0f172a;
+  border-radius: 12px;
   padding: 32px 24px;
 }
 #end-body h3 {
@@ -408,9 +409,3 @@ body {
 .action-delta.positive { color: #ef4444; }
 .action-delta.negative { color: #22c55e; }
 
-#end-note {
-  font-size: .82rem;
-  color: #475569;
-  margin-bottom: 28px;
-  font-style: italic;
-}
