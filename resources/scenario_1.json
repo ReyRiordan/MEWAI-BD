@@ -19,8 +19,8 @@
             "type": "Caregiver involvement",
             "desc": "Ask caregiver for guidance or involve them in calming",
             "point_change": -3,
-            "default": "caregiver_default.jpg",
-            "active": "caregiver_active.jpg",
+            "inactive": "caregiver_default.png",
+            "active": "caregiver_active.png",
             "persist": true,
             "layer": 1
         },
@@ -28,8 +28,8 @@
             "type": "Environmental",
             "desc": "Dim lights, reduce noise, limit staff",
             "point_change": -2,
-            "default": "environmental_default.jpg",
-            "active": "environmental_active.jpg",
+            "inactive": "environment_default.png",
+            "active": "environment_active.png",
             "persist": true,
             "layer": -1
         },
@@ -37,7 +37,7 @@
             "type": "Verbal Communication",
             "desc": "Calm tone, simple explanations, reassurance",
             "point_change": -1,
-            "default": null,
+            "inactive": null,
             "active": null,
             "persist": false,
             "layer": null
@@ -46,7 +46,7 @@
             "type": "Offer Control",
             "desc": "Give choices (explain vs show)",
             "point_change": -1,
-            "default": null,
+            "inactive": null,
             "active": null,
             "persist": false,
             "layer": null
@@ -55,7 +55,7 @@
             "type": "Acknowledge distress",
             "desc": "E.g. “I see this is overwhelming”",
             "point_change": -1,
-            "default": null,
+            "inactive": null,
             "active": null,
             "persist": false,
             "layer": null
@@ -64,7 +64,7 @@
             "type": "Delay Procedure",
             "desc": "Acknowledge that IV will be done later",
             "point_change": -1,
-            "default": null,
+            "inactive": null,
             "active": null,
             "persist": false,
             "layer": null
@@ -73,8 +73,8 @@
             "type": "Force IV",
             "desc": "Attempt IV while agitated",
             "point_change": 4,
-            "default": null,
-            "active": "iv_active.jpg",
+            "inactive": null,
+            "active": "iv_active.png",
             "persist": false,
             "layer": 1
         },
@@ -82,7 +82,7 @@
             "type": "Authoritative tone",
             "desc": "E.g. “We need to do this now”",
             "point_change": 2,
-            "default": null,
+            "inactive": null,
             "active": null,
             "persist": false,
             "layer": null
@@ -91,8 +91,8 @@
             "type": "Restraint",
             "desc": "Chemical Sedations or Physical Restraints",
             "point_change": 10,
-            "default": null,
-            "active": "restraint_active.jpg",
+            "inactive": null,
+            "active": "restraint_active.png",
             "persist": true,
             "layer": 1
         }
