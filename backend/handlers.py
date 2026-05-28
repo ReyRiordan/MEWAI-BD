@@ -36,27 +36,31 @@ def run_system_agent(text: str, escalation: int) -> list[dict]:
 
 
 def apply_actions(detected: list[dict]):
+    action_map = {a["type"]: a for a in SCENARIO["actions"]}
     max_esc = SCENARIO["point_bar"]["max"]
-    for action in detected:
+    for item in detected:
+        action = action_map.get(item.get("type"))
+        if not action:
+            continue
         with STATE_LOCK:
             GAME_STATE.escalation = max(0, min(max_esc, GAME_STATE.escalation + action["point_change"]))
-            if action.get("scene_change"):
-                GAME_STATE.current_scene = action["scene_change"]
-            GAME_STATE.actions_taken.append(action["type"])
-        desc = next((a["desc"] for a in SCENARIO["actions"] if a["type"] == action["type"]), "")
+            GAME_STATE.action_states[action["type"]] = True
         enqueue({
             "type": "action_detected",
             "action_type": action["type"],
-            "desc": desc,
+            "desc": action["desc"],
             "point_change": action["point_change"],
         })
-        enqueue({
-            "type": "state_update",
-            "escalation": GAME_STATE.escalation,
-            "max": max_esc,
-            "scene": GAME_STATE.current_scene,
-            "status": GAME_STATE.status,
-        })
+    with STATE_LOCK:
+        active = [t for t, v in GAME_STATE.action_states.items() if v]
+        esc = GAME_STATE.escalation
+    enqueue({
+        "type": "state_update",
+        "escalation": esc,
+        "max": max_esc,
+        "active_actions": active,
+        "status": GAME_STATE.status,
+    })
 
 
 def check_terminal() -> bool:
@@ -66,12 +70,10 @@ def check_terminal() -> bool:
         esc = GAME_STATE.escalation
         if esc <= goal:
             GAME_STATE.status = "success"
-            GAME_STATE.current_scene = SCENARIO["success"]
             enqueue({"type": "game_over", "status": "success", "reason": "Escalation reduced to goal"})
             return True
         if esc >= max_esc:
             GAME_STATE.status = "fail"
-            GAME_STATE.current_scene = SCENARIO["fail"]
             enqueue({"type": "game_over", "status": "fail", "reason": "Escalation reached maximum"})
             return True
     return False
@@ -82,6 +84,11 @@ def response(audio: tuple[int, NDArray[np.int16 | np.float32]], session_id: str 
         return
 
     t_start = time.perf_counter()
+
+    with STATE_LOCK:
+        for action in SCENARIO["actions"]:
+            if not action.get("persist"):
+                GAME_STATE.action_states[action["type"]] = False
 
     text = STT.transcribe(audio)
     t_asr = time.perf_counter()

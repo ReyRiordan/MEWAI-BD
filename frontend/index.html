@@ -46,7 +46,7 @@
   <!-- Left column -->
   <div id="game-left">
     <div id="scene-wrapper">
-      <img id="scene-img" src="/scenes/start.jpg" alt="scene" />
+      <div id="scene-layers"></div>
       <div id="timer">5:00</div>
       <div id="action-badge"></div>
     </div>
@@ -80,20 +80,16 @@
 </div>
 
 <!-- ═══════════════════════════════════
-     END SCREEN
+     END SCREEN (overlay — sits on top of game screen)
 ═══════════════════════════════════ -->
-<div id="screen-end" class="screen">
-  <div id="end-hero">
-    <img id="end-scene" src="/scenes/success.jpg" alt="result" />
-    <div id="end-hero-text">
-      <div id="end-title"></div>
-      <div id="end-reason"></div>
-    </div>
+<div id="screen-end">
+  <div id="end-hero-text">
+    <div id="end-title"></div>
+    <div id="end-reason"></div>
   </div>
   <div id="end-body">
     <h3>Actions — Found vs. Missed</h3>
     <div id="actions-checklist"></div>
-    <p id="end-note">Full evaluation rubric coming in future update.</p>
     <button class="btn btn-primary" id="btn-again">Play Again</button>
   </div>
 </div>

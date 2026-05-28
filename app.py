@@ -45,6 +45,7 @@ stream = Stream(
 
 app = FastAPI()
 app.mount("/scenes", StaticFiles(directory="scenes"), name="scenes")
+app.mount("/visuals", StaticFiles(directory="visuals"), name="visuals")
 app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 app = gr.mount_gradio_app(app, stream.ui, path="/gradio")
 
