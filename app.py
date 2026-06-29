@@ -4,7 +4,7 @@ import gradio as gr
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastrtc import ReplyOnPause, Stream, AlgoOptions
+from fastrtc import ReplyOnPause, Stream, AlgoOptions, get_twilio_turn_credentials
 
 from backend.agents import ParakeetSTT, OpenRouterChat, InworldTTS
 from backend.game import load_scenario, load_patient_prompt
@@ -35,11 +35,19 @@ algo_options = AlgoOptions(
     started_talking_threshold=0.3,
     speech_threshold=0.3,
 )
+# WebRTC needs a TURN server when the browser and server are on different
+# networks (e.g. deployed). Locally this is unnecessary, so only enable it
+# when Twilio credentials are present.
+rtc_configuration = None
+if os.getenv("TWILIO_ACCOUNT_SID") and os.getenv("TWILIO_AUTH_TOKEN"):
+    rtc_configuration = get_twilio_turn_credentials()
+
 stream = Stream(
     modality="audio",
     mode="send-receive",
     handler=ReplyOnPause(handlers.response, input_sample_rate=16000, algo_options=algo_options),
     concurrency_limit=1,
+    rtc_configuration=rtc_configuration,
     ui_args={"title": "MEWAI Patient"},
 )
 
@@ -54,4 +62,5 @@ register_routes(app, SCENARIO)
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=7860)
+    port = int(os.getenv("PORT", "7860"))
+    uvicorn.run(app, host="0.0.0.0", port=port)
