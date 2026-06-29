@@ -22,6 +22,16 @@ TOGETHER_API_KEY     # Parakeet STT via Together AI
 INWORLD_API_KEY      # Inworld TTS (streaming audio)
 ```
 
+### Optional .env keys (per-agent model + reasoning effort)
+Each defaults to `anthropic/claude-haiku-4.5` / effort `none` if unset.
+Effort values: `none | low | medium | high` (passed directly to OpenRouter's `reasoning.effort`).
+```
+SYSTEM_AGENT_MODEL    # OpenRouter model ID for the system (referee) agent
+SYSTEM_AGENT_EFFORT   # Reasoning effort for the system agent
+PATIENT_AGENT_MODEL   # OpenRouter model ID for the patient agent
+PATIENT_AGENT_EFFORT  # Reasoning effort for the patient agent
+```
+
 ## File Map
 
 | File | Responsibility |

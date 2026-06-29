@@ -12,7 +12,8 @@ from backend.game import (
 
 # These are injected at startup by app.py
 STT = None
-LLM = None
+SYSTEM_LLM = None
+PATIENT_LLM = None
 TTS = None
 SCENARIO = None
 PATIENT_PROMPT = None
@@ -26,7 +27,7 @@ def run_system_agent(text: str, escalation: int) -> list[dict]:
         "escalation": escalation,
         "actions": SCENARIO["actions"],
     })
-    raw = LLM.chat([{"role": "user", "content": user_msg}], SYSTEM_PROMPT)
+    raw = SYSTEM_LLM.chat([{"role": "user", "content": user_msg}], SYSTEM_PROMPT)
     clean = re.sub(r"```(?:json)?\s*", "", raw).strip().rstrip("`").strip()
     try:
         return json.loads(clean).get("detected_actions", [])
@@ -115,7 +116,7 @@ def response(audio: tuple[int, NDArray[np.int16 | np.float32]], session_id: str 
     with HISTORY_LOCK:
         history_snapshot = list(CONVERSATION_HISTORY)
     messages = [{"role": "system", "content": escalation_ctx}] + history_snapshot
-    reply = LLM.chat(messages, PATIENT_PROMPT)
+    reply = PATIENT_LLM.chat(messages, PATIENT_PROMPT)
     t_patient = time.perf_counter()
 
     print(f"[patient] {reply}")

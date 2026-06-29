@@ -19,12 +19,22 @@ PATIENT_PROMPT = load_patient_prompt("resources/patient.txt", "resources/patient
 SYSTEM_PROMPT = open("resources/system.txt", encoding="utf8").read()
 
 STT = ParakeetSTT(os.getenv("TOGETHER_API_KEY"))
-LLM = OpenRouterChat(os.getenv("OPENROUTER_API_KEY"))
+SYSTEM_LLM = OpenRouterChat(
+    os.getenv("OPENROUTER_API_KEY"),
+    model=os.getenv("SYSTEM_AGENT_MODEL", "anthropic/claude-haiku-4.5"),
+    effort=os.getenv("SYSTEM_AGENT_EFFORT", "none"),
+)
+PATIENT_LLM = OpenRouterChat(
+    os.getenv("OPENROUTER_API_KEY"),
+    model=os.getenv("PATIENT_AGENT_MODEL", "anthropic/claude-haiku-4.5"),
+    effort=os.getenv("PATIENT_AGENT_EFFORT", "none"),
+)
 TTS = InworldTTS(os.getenv("INWORLD_API_KEY"))
 
 # Inject singletons into handlers module
 handlers.STT = STT
-handlers.LLM = LLM
+handlers.SYSTEM_LLM = SYSTEM_LLM
+handlers.PATIENT_LLM = PATIENT_LLM
 handlers.TTS = TTS
 handlers.SCENARIO = SCENARIO
 handlers.PATIENT_PROMPT = PATIENT_PROMPT

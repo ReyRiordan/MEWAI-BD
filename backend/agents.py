@@ -38,14 +38,18 @@ class ParakeetSTT:
 
 
 class OpenRouterChat:
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str,
+                 model: str = "anthropic/claude-haiku-4.5",
+                 effort: str = "none"):
         self.api_key = api_key
+        self.model = model
+        self.effort = effort
         self.url = "https://openrouter.ai/api/v1/chat/completions"
 
     def chat(self, messages: list[dict], system_prompt: str) -> str:
         payload = {
-            "model": "anthropic/claude-haiku-4.5",
-            "reasoning": {"enabled": False},
+            "model": self.model,
+            "reasoning": {"effort": self.effort},
             "messages": [],
         }
         if system_prompt:
